@@ -1,0 +1,19 @@
+h3.h5bp {
+  border: 0;
+  font: 0/0 a;
+  text-shadow: none;
+  color: transparent;
+  background: url(/static/img/mezo.png);
+  background-size: 80px 20px;
+  width: 80px;
+  height: 20px;
+  margin:0;
+}
+
+.navbar {
+	padding-top:20px;
+}
+
+.navbar-inner {
+	padding-left:20px;
+}

@@ -1,0 +1,68 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Hi, {{g.user.nickname}}!</h1>
+{% include 'flash.html' %}
+<div class="well">
+    <form class="form-inline" action="" method="post" name="post">
+        {{form.hidden_tag()}}
+        <div class="control-group{% if form.errors.post %} error{% endif %}">
+            <label class="control-label" for="post">Create a new email:</label>
+            <div class="control-group">
+                {{ form.post() }}
+                {% for error in form.errors.post %}
+                    <span class="help-inline">[{{error}}]</span><br>
+                {% endfor %}
+            </div>
+            <label class="control-label" for="post">Choose langauges to support:</label>
+            <div class="control-group">
+                {{ form.languages(style="height:25em;") }}
+            </div>
+            <!-- old post languages list with checkboxes 
+                <div class="control-group">
+                {{ form.lang_cs() }} Český<br>
+                {{ form.lang_da() }} Dansk<br>
+                {{ form.lang_de() }} Deutsch<br>
+                {{ form.lang_en() }} English<br>
+                {{ form.lang_es() }} Español<br>
+                {{ form.lang_fr() }} Français<br>
+                {{ form.lang_it() }} Italiano<br>
+                {{ form.lang_hu() }} Magyar<br>
+                {{ form.lang_nl() }} Nederlands<br>
+                {{ form.lang_nb() }} Norsk<br>
+                {{ form.lang_pl() }} Polski<br>
+                {{ form.lang_pt() }} Português<br>
+                {{ form.lang_fi() }} Suomi<br>
+                {{ form.lang_sv() }} Svenska<br>
+                {{ form.lang_tr() }} Türkçe<br>
+                {{ form.lang_ru() }} Русский<br>
+                {{ form.lang_th() }} ไทย<br>
+                {{ form.lang_ko() }} 한국어<br>
+                {{ form.lang_zh() }} 中文<br>
+                {{ form.lang_ja() }} 日本語
+            </div>-->
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <input class="btn btn-primary" type="submit" value="Create from Template">
+            </div>
+        </div>
+    </form>
+</div>
+{% for post in posts.items %}
+    {% include 'post.html' %}
+{% endfor %}
+<ul class="pager">
+    {% if posts.has_prev %}
+    <li class="previous"><a href="{{ url_for('index', page = posts.prev_num) }}">Newer</a></li>
+    {% else %}
+    <li class="previous disabled"><a href="#">Newer</a></li>
+    {% endif %}
+    {% if posts.has_next %}
+    <li class="next"><a href="{{ url_for('index', page = posts.next_num) }}">Older</a></li>
+    {% else %}
+    <li class="next disabled"><a href="#">Older</a></li>
+    {% endif %}
+</ul>
+{% endblock %}
