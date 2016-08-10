@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
-from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask_login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
 from forms import LoginForm, EditForm, PostForm, SearchForm
 from models import User, ROLE_USER, ROLE_ADMIN, Post
@@ -14,7 +14,7 @@ def load_user(id):
 @app.before_request
 def before_request():
     g.user = current_user
-    if g.user.is_authenticated():
+    if g.user.is_authenticated:
         g.user.last_seen = datetime.utcnow()
         db.session.add(g.user)
         db.session.commit()
@@ -50,7 +50,7 @@ def index(page = 1):
 @app.route('/login', methods = ['GET', 'POST'])
 @oid.loginhandler
 def login():
-    if g.user is not None and g.user.is_authenticated():
+    if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('index'))
     form = LoginForm()
     if form.validate_on_submit():
@@ -65,8 +65,8 @@ def login():
 def after_login(resp):
     #if resp.email is None or resp.email == "":
     #figure out how to endswith rather than in
-    if resp.email is None or resp.email == "" or '@shutterstock.com' not in resp.email:
-        flash('Invalid login. Please sign in to your Shutterstock Gmail account and try again.')
+    if resp.email is None or resp.email == "" or '@beenverified.com' not in resp.email:
+        flash('Invalid login. Please sign in to your BeenVerified Gmail account and try again.')
         return redirect(url_for('login'))
     user = User.query.filter_by(email = resp.email).first()
     if user is None:
